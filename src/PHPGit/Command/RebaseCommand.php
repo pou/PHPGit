@@ -45,6 +45,17 @@ class RebaseCommand extends Command
             $builder->add('--onto')->add($options['onto']);
         }
 
+        if ($options['preserve-merges']) {
+            $builder->add('--preserve-merges');
+        }
+
+        if ($options['interactive']) {
+            $builder->add('--interactive');
+            if (isset($options['after-commit'])) {
+                $builder->add($options['after-commit']);
+            }
+        }
+
         if ($upstream) {
             $builder->add($upstream);
         }
@@ -116,9 +127,12 @@ class RebaseCommand extends Command
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'onto'         => null,
-            'no-verify'    => false,
-            'force-rebase' => false
+            'onto'            => null,
+            'no-verify'       => false,
+            'force-rebase'    => false,
+            'preserve-merges' => false,
+            'interactive'     => false,
+            'after-commit'    => null
         ));
 
         $resolver->setAllowedTypes(array(
