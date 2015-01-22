@@ -63,6 +63,14 @@ class LogCommand extends Command
             ->add('--skip=' . $options['skip'])
             ->add('--format=%H||%aN||%aE||%aD||%s');
 
+        if ($options['only_merges']) {
+            $builder->add('--merges');
+        }
+
+        if (isset($options['grep'])) {
+            $builder->add('--grep')->add($options['grep']);
+        }
+
         if ($revRange) {
             $builder->add($revRange);
         }
@@ -97,8 +105,10 @@ class LogCommand extends Command
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'limit' => 10,
-            'skip'  => 0
+            'limit'       => 10,
+            'skip'        => 0,
+            'only_merges' => false,
+            'grep'        => null,
         ));
     }
 
